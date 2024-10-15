@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <nav id="app-nav" className="shadow-2xl p-5 flex gap-2 bg-green-400 text-green-950 dark:bg-green-900 dark:text-green-100">
         
-      
+    
         <div className="flex flex-row">
         <div className="flex items-center flex-1 font-bold mr-8" > Eco Advice App</div>
         <NavLink className="rounded-lg p-2" to="/">
