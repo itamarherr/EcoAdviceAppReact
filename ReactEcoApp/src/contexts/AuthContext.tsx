@@ -16,7 +16,7 @@ interface AuthContextType {
 
 const AuthContext = createContext(initialValues);
 
-function AuthProvider({props}){
+function AuthProvider(props){
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [token, setToken] = useState("");
 
