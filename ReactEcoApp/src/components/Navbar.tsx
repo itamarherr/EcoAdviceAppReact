@@ -16,7 +16,7 @@ const Navbar = () => {
     
         <div className="flex flex-row">
         <div className="flex items-center flex-1 font-bold mr-8" > Eco Advice App</div>
-        <NavLink className="rounded-lg p-2" to="/">
+        <NavLink className="flex items-center rounded-lg p-2" to="/">
         <IoHomeOutline aria-description="Home" />
         </NavLink>
         <NavLink className="rounded-lg p-2" to="/about">About</NavLink>
