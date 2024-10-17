@@ -3,32 +3,53 @@ import React, { useState } from 'react'
 import *  as Yup from 'yup'
 import Spinner from '../components/Spinner';
 import { dialogs } from '../dialogs/Dialogs';
+import { auth } from '../services/Auth-service';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
 const [isLoading, setIsLoading] = useState(false);
 const [error, setError] = useState<string>();
+const navigate = useNavigate();
   const validationSchema = Yup.object({
     email:Yup.string().email('Bad Email!').required('The email field is required'),
     username: Yup.string().required("The User Name field is required").min(2).max(20),
     password: Yup.string().required("Password must contain at least one uppercase letter, one lowercase letter, one number and one special character").min(8).max(20).matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_-]).{8,30}$/),
+    name: Yup.string().required('The email field is required')
   });
   const initialValues = {
     email: "",
     username: "",
-    password: ""
+    password: "",
+    name: ""
   };
   return (
     <Formik
     initialValues={initialValues} 
     validationSchema={validationSchema} 
-    onSubmit={(value, {setSubmitting}) => {
+    onSubmit={(o) => {
       setIsLoading(true);
-      dialogs.success("User Registered Successfully");
-      dialogs.error("User Registered Successfully");
-     setTimeout(() => {
-      setIsLoading(false);
-      setSubmitting(false);
-     },2000);
+      auth
+      .register(o.email, o.username, o.password, o.name)
+      .then((response) => {
+        dialogs.success("Registration Successful")
+        .then(()=>{
+          navigate("/login");
+        });
+      })
+      .catch((error) => {
+        dialogs.error("Registration Faild");
+      })
+      .finally(()=> {
+        setIsLoading(false);
+      });
+
+    //   setIsLoading(true);
+    //   dialogs.success("User Registered Successfully");
+    //   dialogs.error("User Registered Successfully");
+    //  setTimeout(() => {
+    //   setIsLoading(false);
+    //   setSubmitting(false);
+    //  },2000);
     }}
     >
    
@@ -36,6 +57,19 @@ const [error, setError] = useState<string>();
     <h1 className="text-center font-bold text-2xl">REGISTER FORM</h1>
     {isLoading && <Spinner/>}
     {error && <p className='text0red-500'>{error}</p>}
+    <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg">
+      <label  className="px-2 py-2 mt-4" htmlFor="name">Name</label>
+      <Field 
+      name="name" 
+      type="name" 
+      id="name" 
+      className="rounded-md active:border-2 border-green-300 hover:border-green-500 border-2 px-1 py-2"
+      />
+      <ErrorMessage 
+      name="name" 
+      component="div" 
+      className="text-red-500"/>
+    </div>
     <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg">
       <label  className="px-2 py-2 mt-4" htmlFor="username">User Name</label>
       <Field 
@@ -75,7 +109,7 @@ const [error, setError] = useState<string>();
       component="div" 
       className="text-red-500" />
     </div>
-    
+
     <button
     disabled={isLoading}
     type="submit"

@@ -1,11 +1,12 @@
 import { createContext, useState } from "react";
 import { useEffect } from "react";
 
-const initialValues= {
- darkMode: false, 
- toggle: ()=> {}  
+
+export interface DarkModeContextType {
+    darkMode: boolean;
+    toggle: () => void;
 }
- const DarkModeContext = createContext(initialValues);
+ const DarkModeContext = createContext<DarkModeContextType>(null);
 
 function DarkModeProvaider({children}){
  useEffect(()=>{

@@ -4,12 +4,13 @@ import { IoHomeOutline } from "react-icons/io5";
 import { LuGithub } from 'react-icons/lu';
 import './Navbar.scss';
 import { DarkModeContext } from '../contexts/DarkModeContext';
-import { AuthContext } from '../contexts/Authcontext';
 import { BiLogOut } from 'react-icons/bi';
+import useAuth from '../hooks/useAuth';
+import useDarkMode from '../hooks/useDarkMode';
 
 const Navbar = () => {
-  const {darkMode, toggle} = useContext(DarkModeContext);
-  const {isLoggedIn, logout} = useContext(AuthContext)
+  const {darkMode, toggle} = useDarkMode();
+  const {isLoggedIn, logout} = useAuth();
   return (
     <nav id="app-nav" className="shadow-2xl p-5 flex gap-2 bg-green-400 text-green-950 dark:bg-green-900 dark:text-green-100">
         
@@ -19,23 +20,23 @@ const Navbar = () => {
         <NavLink className="flex items-center rounded-lg p-2" to="/">
         <IoHomeOutline aria-description="Home" />
         </NavLink>
-        <NavLink className="rounded-lg p-2" to="/about">About</NavLink>
-        <NavLink className="rounded-lg p-2" to="/posts">Posts</NavLink>
+        <NavLink className=" hidden sm:flex rounded-lg p-2" to="/about">About</NavLink>
+        <NavLink className=" hidden sm:flex rounded-lg p-2" to="/posts">Posts</NavLink>
         </div>
        
        
         <div className="flex-1"> </div>
         {!isLoggedIn && (
           <>
-          <NavLink className="rounded-lg p-2" to="/login">Login</NavLink>
-          <NavLink className="rounded-lg p-2" to="/register">Register</NavLink>
+          <NavLink className=" hidden sm:flex rounded-lg p-2" to="/login">Login</NavLink>
+          <NavLink className=" hidden sm:flex rounded-lg p-2" to="/register">Register</NavLink>
         </>
          )}
         <div className="hidden sm:flex items-center">
         <button onClick={toggle} className="rounded-lg p-2">
           {darkMode ? "🌞" : "🌚"}
         </button>
-       <a href= "https://github.com/itamarherr" className='px-2'>
+       <a href= "https://github.com/itamarherr" className=' hidden sm:flex px-2'>
        <LuGithub className="" aria-description="github"/>
        </a>
        {isLoggedIn && (

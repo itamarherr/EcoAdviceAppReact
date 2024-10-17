@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-interface AuthContextType {
+export interface AuthContextType {
     isLoggedIn: boolean;
     token: string;
     login: (token: string) => void;
@@ -8,8 +8,8 @@ interface AuthContextType {
   }
   
   const initialValues:AuthContextType = {
-    isLoggedIn: false,
-    token: "",
+    isLoggedIn: !!localStorage.getItem("token"),
+    token: localStorage.getItem("token") ?? "",
     login: () => {},
     logout: () => {},  
   };
@@ -17,14 +17,18 @@ interface AuthContextType {
 const AuthContext = createContext(initialValues);
 
 function AuthProvider(props){
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [token, setToken] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+    const [token, setToken] = useState(localStorage.getItem("token") ?? "");
 
     function login(token:string){
+      localStorage.setItem("token", token);
         setIsLoggedIn(true);
         setToken(token);
+       
+
     }
     function logout(){
+      localStorage.removeItem("token");
         setIsLoggedIn(false);
         setToken("");
     }
