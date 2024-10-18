@@ -20,8 +20,11 @@ const Navbar = () => {
         <NavLink className="flex items-center rounded-lg p-2" to="/">
         <IoHomeOutline aria-description="Home" />
         </NavLink>
+        
         <NavLink className=" hidden sm:flex rounded-lg p-2" to="/about">About</NavLink>
+        {isLoggedIn && (
         <NavLink className=" hidden sm:flex rounded-lg p-2" to="/posts">Posts</NavLink>
+        )}
         </div>
        
        
